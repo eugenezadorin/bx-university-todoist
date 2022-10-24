@@ -5,7 +5,8 @@
 // php todo.php list yesterday
 // php todo.php add "Wake up"
 // php todo.php add "Drink coffee"
-// php todo.php complete 1 2
+// php todo.php done 1 2
+// php todo.php undone 1 2
 // php todo.php remove 2 (rm)
 // php todo.php report
 
@@ -23,8 +24,11 @@ function main(array $arguments)
 		case 'add':
 			addCommand($arguments);
 			break;
-		case 'complete':
-			completeCommand($arguments);
+		case 'done':
+			doneCommand($arguments);
+			break;
+		case 'undone':
+			undoneCommand($arguments);
 			break;
 		case 'remove':
 		case 'rm':
@@ -47,6 +51,9 @@ function addCommand(array $arguments)
 		'id' => uniqid(),
 		'title' => $title,
 		'completed' => false,
+		'created_at' => time(),
+		'updated_at' => null,
+		'completed_at' => null,
 	];
 
 	$fileName = date('Y-m-d') . '.txt';
@@ -71,12 +78,124 @@ function addCommand(array $arguments)
 
 function removeCommand(array $arguments)
 {
+	$fileName = date('Y-m-d') . '.txt';
+	$filePath = __DIR__ . '/data/' . $fileName;
 
+	if (!file_exists($filePath))
+	{
+		echo 'Nothing to do here';
+		return;
+	}
+
+	$content = file_get_contents($filePath);
+	$todos = unserialize($content, [
+		'allowed_classes' => false,
+	]);
+
+	if (empty($todos))
+	{
+		echo 'Nothing to do here';
+		return;
+	}
+
+	foreach ($arguments as $num)
+	{
+		$index = (int)$num - 1;
+
+		if (!isset($todos[$index]))
+		{
+			continue;
+		}
+
+		unset($todos[$index]);
+	}
+
+	$todos = array_values($todos);
+
+	file_put_contents($filePath, serialize($todos));
 }
 
-function completeCommand(array $arguments)
+function undoneCommand(array $arguments)
 {
+	$fileName = date('Y-m-d') . '.txt';
+	$filePath = __DIR__ . '/data/' . $fileName;
 
+	if (!file_exists($filePath))
+	{
+		echo 'Nothing to do here';
+		return;
+	}
+
+	$content = file_get_contents($filePath);
+	$todos = unserialize($content, [
+		'allowed_classes' => false,
+	]);
+
+	if (empty($todos))
+	{
+		echo 'Nothing to do here';
+		return;
+	}
+
+	foreach ($arguments as $num)
+	{
+		$index = (int)$num - 1;
+
+		if (!isset($todos[$index]))
+		{
+			continue;
+		}
+
+		$todos[$index] = array_merge($todos[$index], [
+			'completed' => false,
+			'updated_at' => time(),
+			'completed_at' => null,
+		]);
+	}
+
+	file_put_contents($filePath, serialize($todos));
+}
+function doneCommand(array $arguments)
+{
+	$fileName = date('Y-m-d') . '.txt';
+	$filePath = __DIR__ . '/data/' . $fileName;
+
+	if (!file_exists($filePath))
+	{
+		echo 'Nothing to do here';
+		return;
+	}
+
+	$content = file_get_contents($filePath);
+	$todos = unserialize($content, [
+		'allowed_classes' => false,
+	]);
+
+	if (empty($todos))
+	{
+		echo 'Nothing to do here';
+		return;
+	}
+
+	$now = time();
+
+	foreach ($arguments as $num)
+	{
+		$index = (int)$num - 1;
+
+		if (!isset($todos[$index]))
+		{
+			continue;
+		}
+
+		$todos[$index] = array_merge($todos[$index], [
+			'completed' => true,
+			'updated_at' => $now,
+			'completed_at' => $now,
+		]);
+	}
+
+	file_put_contents($filePath, serialize($todos));
 }
 
 function listCommand(array $arguments)
