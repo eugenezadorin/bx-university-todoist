@@ -30,6 +30,14 @@ function getTodosOrFail(?int $time = null): array
 	return $todos;
 }
 
+function addTodo(array $todo, ?int $time = null)
+{
+	$todos = getTodos($time);
+	$todos[] = $todo;
+
+	storeTodos($todos);
+}
+
 function storeTodos(array $todos, ?int $time = null)
 {
 	$filePath = getRepositoryPath($time);

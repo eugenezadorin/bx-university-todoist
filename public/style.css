@@ -80,3 +80,12 @@ footer {
 	color: #8d8d8d;
 }
 
+.alert {
+	padding: 12px;
+	border-radius: 5px;
+}
+
+.alert.danger {
+	background: #ffb8b8;
+}
+
