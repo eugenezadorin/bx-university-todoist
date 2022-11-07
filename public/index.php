@@ -4,7 +4,7 @@ require_once __DIR__ . '/../boot.php';
 
 $time = null;
 $isHistory = false;
-$title = 'Todoist';
+$title = option('APP_NAME', 'Todoist');
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -39,9 +39,9 @@ if (isset($_GET['date']))
 	}
 }
 
-
 echo view('layout', [
 	'title' => $title,
+	'bottomMenu' => require_once ROOT . '/menu.php',
 	'content' => view('pages/index', [
 		'todos' => getTodos($time),
 		'isHistory' => $isHistory,

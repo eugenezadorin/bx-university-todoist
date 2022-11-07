@@ -36,6 +36,7 @@ header h1 {
 header .icon {
 	font-size: 48px;
 	margin-right: 6px;
+	text-decoration: none;
 }
 
 main {
@@ -78,6 +79,18 @@ button {
 footer {
 	font-size: 14px;
 	color: #8d8d8d;
+	display: flex;
+	justify-content: space-between;
+}
+
+footer nav a {
+	color: inherit;
+	padding: 0 4px;
+}
+
+footer nav a.is-active {
+	font-weight: bold;
+	text-decoration: none;
 }
 
 .alert {

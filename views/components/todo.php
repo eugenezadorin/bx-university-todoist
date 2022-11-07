@@ -11,6 +11,6 @@
 			<?= ($todo['completed']) ? 'checked' : ''; ?>
 			<?= ($isHistory) ? 'disabled' : ''; ?>
 		>
-		<?= safe($todo['title']); ?>
+		<?= safe(truncate($todo['title'], option('TRUNCATE_TODO', 200))); ?>
 	</label>
 </article>

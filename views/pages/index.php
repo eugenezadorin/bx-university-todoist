@@ -8,19 +8,26 @@
 <main>
 
 	<?php if (!empty($errors)):?>
-	<div class="alert danger">
-		<?= implode('<br>', $errors); ?>
-	</div>
+		<div class="alert danger">
+			<?= implode('<br>', $errors); ?>
+		</div>
+	<?php endif; ?>
+
+	<?php if (empty($todos)): ?>
+		<p>Nothing todo here</p>
 	<?php endif; ?>
 
 	<?php foreach ($todos as $todo):?>
-		<?= view('components/todo', ['todo' => $todo, 'isHistory' => $isHistory ]); ?>
+		<?= view('components/todo', [
+				'todo' => $todo,
+				'isHistory' => $isHistory,
+		]); ?>
 	<?php endforeach; ?>
 
 	<?php if (!$isHistory): ?>
-	<form action="/" method="post" class="add-todo">
-		<input type="text" name="title" placeholder="What to do?">
-		<button type="submit">Save</button>
-	</form>
+		<form action="/" method="post" class="add-todo">
+			<input type="text" name="title" placeholder="What to do?">
+			<button type="submit">Save</button>
+		</form>
 	<?php endif; ?>
 </main>

@@ -43,6 +43,7 @@ $report = [
 
 echo view('layout', [
 	'title' => 'Todoist :: Report',
+	'bottomMenu' => require_once ROOT . '/menu.php',
 	'content' => view('pages/report', [
 		'report' => $report,
 	]),

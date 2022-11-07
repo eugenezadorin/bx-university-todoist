@@ -2,10 +2,11 @@
 /**
  * @var string $title
  * @var string $content
+ * @var array $bottomMenu
  */
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="<?= option('APP_LANG', 'en'); ?>">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport"
@@ -17,14 +18,17 @@
 <body>
 <section class="content">
 	<header>
-		<span class="icon">📝</span>
+		<a href="/" class="icon">📝</a>
 		<h1><?= $title; ?></h1>
 	</header>
 
 	<?= $content ?>
 
 	<footer>
-		&copy; <?= date('Y'); ?> Todoist by Bitrix University
+		<div>
+			&copy; <?= date('Y'); ?> <?= $title; ?> by Bitrix University
+		</div>
+		<?= view('components/menu', ['items' => $bottomMenu]); ?>
 	</footer>
 
 </section>
