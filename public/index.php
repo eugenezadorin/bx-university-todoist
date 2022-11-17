@@ -39,11 +39,16 @@ if (isset($_GET['date']))
 	}
 }
 
+$todos = [
+	new Todo('First task'),
+	new Todo('Second task'),
+];
+
 echo view('layout', [
 	'title' => $title,
 	'bottomMenu' => require_once ROOT . '/menu.php',
 	'content' => view('pages/index', [
-		'todos' => getTodos($time),
+		'todos' => $todos,//getTodos($time),
 		'isHistory' => $isHistory,
 		'errors' => $errors,
 	]),
