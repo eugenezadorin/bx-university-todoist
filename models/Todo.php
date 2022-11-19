@@ -16,10 +16,20 @@ class Todo
 
 	private ?DateTime $completedAt = null;
 
-	public function __construct(string $title)
+	public function __construct(
+		string $title,
+		?string $id = null,
+		?bool $completed = null,
+		?DateTime $createdAt = null,
+		?DateTime $updatedAt = null,
+		?DateTime $completedAt = null
+	)
 	{
-		$this->id = uniqid();
-		$this->createdAt = new DateTime();
+		$this->id = $id ?? uniqid();
+		$this->completed = $completed ?? false;
+		$this->createdAt = $createdAt ?? new DateTime();
+		$this->updatedAt = $updatedAt;
+		$this->completedAt = $completedAt;
 
 		$this->setTitle($title);
 	}

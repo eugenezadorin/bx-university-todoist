@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @param int|null $time
+ * @return Todo[]
+ */
 function getTodos(?int $time = null): array
 {
 	$connection = getDbConnection();
@@ -22,14 +26,14 @@ function getTodos(?int $time = null): array
 
 	while ($row = mysqli_fetch_assoc($result))
 	{
-		$todos[] = [
-			'id' => $row['id'],
-			'title' => $row['title'],
-			'completed' => ($row['completed'] === 'Y'),
-			'created_at' => strtotime($row['created_at']),
-			'updated_at' => $row['updated_at'] ? strtotime($row['updated_at']) : null,
-			'completed_at' => $row['completed_at'] ? strtotime($row['updated_at']) : null,
-		];
+		$todos[] = new Todo(
+			$row['title'],
+			$row['id'],
+			($row['completed'] === 'Y'),
+			new DateTime($row['created_at']),
+			$row['updated_at'] ? new DateTime($row['updated_at']) : null,
+			$row['completed_at'] ? new DateTime($row['updated_at']) : null
+		);
 	}
 
 	return $todos;
@@ -48,14 +52,28 @@ function getTodosOrFail(?int $time = null): array
 	return $todos;
 }
 
-function addTodo(array $todo): bool
+function saveTodo(Todo $todo): bool
 {
 	$connection = getDbConnection();
 
-	$id = mysqli_real_escape_string($connection, $todo['id']);
-	$title = mysqli_real_escape_string($connection, $todo['title']);
+	$id = mysqli_real_escape_string($connection, $todo->getId());
+	$title = mysqli_real_escape_string($connection, $todo->getTitle());
+	$completed = $todo->isCompleted() ? 'Y' : 'N';
+	$createdAt = $todo->getCreatedAt()->format('Y-m-d H:i:s');
+	$updatedAt = $todo->getUpdatedAt() ? $todo->getUpdatedAt()->format('Y-m-d H:i:s') : null;
+	$completedAt = $todo->getCompletedAt() ? $todo->getCompletedAt()->format('Y-m-d H:i:s') : null;
 
-	$sql = "INSERT INTO todos (id, title) VALUES ('{$id}', '{$title}');";
+	$updatedAt = $updatedAt ? "'{$updatedAt}'" : "NULL";
+	$completedAt = $completedAt ? "'{$completedAt}'" : "NULL";
+
+	$sql = "INSERT INTO todos (id, title, completed, created_at, updated_at, completed_at) VALUES (
+    	'{$id}', 
+        '{$title}',
+		'{$completed}',
+		'{$createdAt}',
+		{$updatedAt},
+		{$completedAt}
+    );";
 
 	$result = mysqli_query($connection, $sql);
 	if (!$result)

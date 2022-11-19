@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
 	if (strlen($title) > 0)
 	{
-		$todo = createTodo($title);
-		addTodo($todo);
+		$todo = new Todo($title);
+		saveTodo($todo);
 		redirect('/?saved=true');
 	}
 	else
@@ -39,16 +39,11 @@ if (isset($_GET['date']))
 	}
 }
 
-$todos = [
-	new Todo('First task'),
-	new Todo('Second task'),
-];
-
 echo view('layout', [
 	'title' => $title,
 	'bottomMenu' => require_once ROOT . '/menu.php',
 	'content' => view('pages/index', [
-		'todos' => $todos,//getTodos($time),
+		'todos' => getTodos($time),
 		'isHistory' => $isHistory,
 		'errors' => $errors,
 	]),
