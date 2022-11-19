@@ -53,6 +53,18 @@ main {
 	margin-right: 12px;
 }
 
+.todo time {
+	color: #8d8d8d;
+	font-size: 14px;
+	margin-left: 5px;
+	opacity: 0;
+	transition: opacity 0.3s ease-in;
+}
+
+.todo:hover time {
+	opacity: 1;
+}
+
 .add-todo {
 	margin-top: 64px;
 	display: flex;
