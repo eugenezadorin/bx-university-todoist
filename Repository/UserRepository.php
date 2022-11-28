@@ -1,5 +1,7 @@
 <?php
 
+namespace Todoist\Repository;
+
 class UserRepository extends Repository
 {
 	/**

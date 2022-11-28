@@ -1,5 +1,11 @@
 <?php
 
+namespace Todoist\Repository;
+
+use Todo,
+	DateTime,
+	Exception;
+
 class TodoRepository extends Repository
 {
 	/**

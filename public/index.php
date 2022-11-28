@@ -1,5 +1,9 @@
 <?php
 
+use Todoist\Repository\Repository;
+use Todoist\Repository\RedisTodoRepository;
+use Todoist\Repository\TodoRepository;
+
 require_once __DIR__ . '/../boot.php';
 
 $time = null;

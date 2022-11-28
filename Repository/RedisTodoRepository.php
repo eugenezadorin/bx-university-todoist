@@ -1,5 +1,7 @@
 <?php
 
+namespace Todoist\Repository;
+
 class RedisTodoRepository extends Repository
 {
 	public function getList(array $filter): array

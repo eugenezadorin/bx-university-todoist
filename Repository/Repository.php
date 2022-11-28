@@ -1,5 +1,7 @@
 <?php
 
+namespace Todoist\Repository;
+
 abstract class Repository
 {
 	abstract public function getList(array $filter): array;
