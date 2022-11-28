@@ -15,7 +15,7 @@
 
 		<time
 			datetime="<?= $todo->getCreatedAt()->format(DateTime::ATOM) ?>">
-			<?= $todo->getCreatedAt()->format('M, d') ?>
+			<?= $todo->getCreatedAt()->format('H:i') ?>
 		</time>
 	</label>
 </article>
