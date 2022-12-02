@@ -5,9 +5,17 @@ namespace Todoist\Repository;
 use Todo,
 	DateTime,
 	Exception;
+use Todoist\Service\DbConnection;
 
 class TodoRepository extends Repository
 {
+	private DbConnection $dbConnection;
+	
+	public function __construct(DbConnection $dbConnection)
+	{
+		$this->dbConnection = $dbConnection;
+	}
+	
 	/**
 	 * @param array $filter
 	 * @return Todo[]
@@ -15,7 +23,7 @@ class TodoRepository extends Repository
 	public function getList(array $filter = []): array
 	{
 		$time = $filter['time'] ?? time();
-		$connection = getDbConnection();
+		$connection = $this->dbConnection->getConnection();
 
 		$from = date('Y-m-d 00:00:00', $time);
 		$to = date('Y-m-d 23:59:59', $time);
@@ -65,7 +73,7 @@ class TodoRepository extends Repository
 	 */
 	public function add($todo): bool
 	{
-		$connection = getDbConnection();
+		$connection = $this->dbConnection->getConnection();
 
 		$id = mysqli_real_escape_string($connection, $todo->getId());
 		$title = mysqli_real_escape_string($connection, $todo->getTitle());

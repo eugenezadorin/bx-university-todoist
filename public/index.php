@@ -1,31 +1,33 @@
 <?php
 
+use Todoist\Core\DependencyInjection;
 use Todoist\Repository\Repository;
 use Todoist\Repository\RedisTodoRepository;
 use Todoist\Repository\TodoRepository;
 
 require_once __DIR__ . '/../boot.php';
-
 $time = null;
 $isHistory = false;
 $title = option('APP_NAME', 'Todoist');
 $errors = [];
 
-function getTodoRepository(): Repository
-{
-	$useRedis = option('USE_REDIS', false);
+//function getTodoRepository(): Repository
+//{
+//	$useRedis = option('USE_REDIS', false);
+//
+//	if ($useRedis)
+//	{
+//		return new RedisTodoRepository();
+//	}
+//	else
+//	{
+//		return new TodoRepository();
+//	}
+//}
 
-	if ($useRedis)
-	{
-		return new RedisTodoRepository();
-	}
-	else
-	{
-		return new TodoRepository();
-	}
-}
 
-$repository = getTodoRepository();
+$di = new DependencyInjection(__DIR__ . '/../services.xml');
+$repository = $di->getComponent('repository');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {

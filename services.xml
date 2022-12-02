@@ -1,0 +1,10 @@
+<services>
+    <service name="repository">
+        <class name="\Todoist\Repository\TodoRepository">
+            <arg service="db"/>
+        </class>
+    </service>
+    <service name="db">
+        <class name="\Todoist\Service\DbConnection" isSingleton="1"/>
+    </service>
+</services>

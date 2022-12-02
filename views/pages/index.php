@@ -25,7 +25,7 @@
 	<?php endforeach; ?>
 
 	<?php if (!$isHistory): ?>
-		<form action="/" method="post" class="add-todo">
+		<form action="/bx-university-todoist/public/index.php" method="post" class="add-todo">
 			<input type="text" name="title" placeholder="What to do?">
 			<button type="submit">Save</button>
 		</form>
